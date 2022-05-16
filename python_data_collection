@@ -1,0 +1,210 @@
+import serial
+import csv
+
+# establishing connection to Arduino
+arduino = serial.Serial('/dev/cu.usbmodem14101', 9600)
+print('Established serial connection to Arduino')
+
+# creating an index in csv file
+x_value = 0
+
+# headers for the csv file (all locations of the copper strips)
+fieldnames = ["x_value", "location_1", "location_2", "location_3", "location_4", "location_5", "location_6", "location_7",
+              "location_8", "location_9", "location_10", "location_11", "location_12", "location_13", "location_14",
+              "location_15", "location_16", "location_17", "location_18", "location_19", "location_20",
+              "location_21", "location_22", "location_23", "location_24", "location_25", "location_26",
+              "location_27", "location_28", "location_29", "location_30", "location_31", "location_32",
+              "location_33", "location_34", "location_35", "location_36", "location_37", "location_38",
+              "location_39", "location_40", "location_41", "location_42", "location_43", "location_44",]
+
+
+# adding headers to the csv file
+with open('data.csv', 'w') as csv_file:
+    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    csv_writer.writeheader()
+
+# Here, the processed data is stored
+location_1 = 0
+location_2 = 0
+location_3 = 0
+location_4 = 0
+location_5 = 0
+location_6 = 0
+location_7 = 0
+location_8 = 0
+location_9 = 0
+location_10 = 0
+location_11 = 0
+location_12 = 0
+location_13 = 0
+location_14 = 0
+location_15 = 0
+location_16 = 0
+location_17 = 0
+location_18 = 0
+location_19 = 0
+location_20 = 0
+location_21 = 0
+location_22 = 0
+location_23 = 0
+location_24 = 0
+location_25 = 0
+location_26 = 0
+location_27 = 0
+location_28 = 0
+location_29 = 0
+location_30 = 0
+location_31 = 0
+location_32 = 0
+location_33 = 0
+location_34 = 0
+location_35 = 0
+location_36 = 0
+location_37 = 0
+location_38 = 0
+location_39 = 0
+location_40 = 0
+location_41 = 0
+location_42 = 0
+location_43 = 0
+location_44 = 0
+
+
+def main_func():
+    global location_1, location_2, location_3, location_4, location_5, location_6, location_7, location_8, location_9,\
+        location_10, location_11, location_12, location_13, location_14, location_15, location_16, location_17, \
+        location_18, location_19, location_20, location_21, location_22, location_23, location_24, location_25, \
+        location_26, location_27, location_28, location_29, location_30, location_31, location_32, location_33, \
+        location_34, location_35, location_36, location_37, location_38, location_39, location_40, location_41, \
+        location_42, location_43, location_44
+
+    # reading one line from the Arduino
+    arduino_data = arduino.readline()
+
+
+    # decoding the line sent from arduino
+    list_values = (str(arduino_data[0:len(arduino_data)].decode("utf-8")))
+    split_values = list_values.split('x')
+
+    # adding data to respective location
+    location_1 = int(split_values[0])
+    location_2 = int(split_values[1])
+    location_3 = int(split_values[2])
+    location_4 = int(split_values[3])
+    location_5 = int(split_values[4])
+    location_6 = int(split_values[5])
+    location_7 = int(split_values[6])
+    location_8 = int(split_values[7])
+    location_9 = int(split_values[8])
+    location_10 = int(split_values[9])
+    location_11 = int(split_values[10])
+    location_12 = int(split_values[11])
+    location_13 = int(split_values[12])
+    location_14 = int(split_values[13])
+    location_15 = int(split_values[14])
+    location_16 = int(split_values[15])
+    location_17 = int(split_values[16])
+    location_18 = int(split_values[17])
+    location_19 = int(split_values[18])
+    location_20 = int(split_values[19])
+    location_21 = int(split_values[20])
+    location_22 = int(split_values[21])
+    location_23 = int(split_values[22])
+    location_24 = int(split_values[23])
+    location_25 = int(split_values[24])
+    location_26 = int(split_values[25])
+    location_27 = int(split_values[26])
+    location_28 = int(split_values[27])
+    location_29 = int(split_values[28])
+    location_30 = int(split_values[29])
+    location_31 = int(split_values[30])
+    location_32 = int(split_values[31])
+    location_33 = int(split_values[32])
+    location_34 = int(split_values[33])
+    location_35 = int(split_values[34])
+    location_36 = int(split_values[35])
+    location_37 = int(split_values[36])
+    location_38 = int(split_values[37])
+    location_39 = int(split_values[38])
+    location_40 = int(split_values[39])
+    location_41 = int(split_values[40])
+    location_42 = int(split_values[41])
+    location_43 = int(split_values[42])
+    location_44 = int(split_values[43])
+
+    # to check if it works
+    print("-----------------------------")
+    print(x_value)
+    print("-----------------------------")
+    print(f"Location 1: {location_1}")
+    print(f"Location 2: {location_2}")
+    print(f"Location 3: {location_3}")
+    print("......")
+    print(f"Location 11: {location_41}")
+    print(f"Location 12: {location_42}")
+    print(f"Location 13: {location_43}")
+    print("-----------------------------")
+
+
+while True:
+    with open('data.csv', 'a') as csv_file:
+
+        # Appending new data to csv file
+        csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+        # import our data here
+        info = {
+            "x_value": x_value,
+            "location_1": location_1,
+            "location_2": location_2,
+            "location_3": location_3,
+            "location_4": location_4,
+            "location_5": location_5,
+            "location_6": location_6,
+            "location_7": location_7,
+            "location_8": location_8,
+            "location_9": location_9,
+            "location_10": location_10,
+            "location_11": location_11,
+            "location_12": location_12,
+            "location_13": location_13,
+            "location_14": location_14,
+            "location_15": location_15,
+            "location_16": location_16,
+            "location_17": location_17,
+            "location_18": location_18,
+            "location_19": location_19,
+            "location_20": location_20,
+            "location_21": location_21,
+            "location_22": location_22,
+            "location_23": location_23,
+            "location_24": location_24,
+            "location_25": location_25,
+            "location_26": location_26,
+            "location_27": location_27,
+            "location_28": location_28,
+            "location_29": location_29,
+            "location_30": location_30,
+            "location_31": location_31,
+            "location_32": location_32,
+            "location_33": location_33,
+            "location_34": location_34,
+            "location_35": location_35,
+            "location_36": location_36,
+            "location_37": location_37,
+            "location_38": location_38,
+            "location_39": location_39,
+            "location_40": location_40,
+            "location_41": location_41,
+            "location_42": location_42,
+            "location_43": location_43,
+            "location_44": location_44,
+        }
+
+        csv_writer.writerow(info)
+
+        # Data is uploaded from the Arduino every "1" seconds - main_func is run
+        main_func()
+
+        # increase index every time main function is run
+        x_value += 1
