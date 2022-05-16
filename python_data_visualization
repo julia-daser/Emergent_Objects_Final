@@ -1,0 +1,725 @@
+from matplotlib import pyplot as plt
+import math
+from sys import platform as sys_pf
+
+if sys_pf == 'darwin':
+    import matplotlib
+
+    matplotlib.use("TkAgg")
+from tkinter import *
+from tkinter import messagebox
+import json
+import pandas as pd
+import tkinter as tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+from PIL import Image, ImageTk
+import tkinter.font as font
+from tkinter import font as tkFont
+from random import choice, randint, shuffle
+from matplotlib.markers import MarkerStyle
+import numpy as np
+
+# ---------------------------- VARIABLES FOR DATA EVALUATION ------------------------------- #
+
+## Graph 1:
+avg_pressure_per_sec = []
+pressure_sum = 0
+
+## Graph 2:
+foreplay_time = 0
+orgasm_time = 0
+resolution_time = 0
+state = 'foreplay'
+
+## Graph 3:
+balls = 0
+#tip = 0
+#dick_length = 0
+graph_3_data = []
+
+# ---------------------------- STYLE ITEMS ------------------------------- #
+
+YELLOW = "#f7f5dd"
+FONT_NAME = "Helvetica"
+FONT_SIZE = 40
+
+
+# ---------------------------- SHOPPING! ------------------------------- #
+# global variables to be replaced everytime code runs
+l_name = "replace_this"
+addr = "replace_this"
+cit = "replace_this"
+pc = "replace_this"
+pn = "replace_this"
+
+# WINDOW 4: function ------------------------------- #
+
+def thank_you_window():
+    def parcel_opened():
+        window.destroy()
+
+    def go_back():
+        window.destroy()
+        all_functions_window()
+
+    # Creating Window
+    window = Tk()
+    window.title("Check Out")
+    window.geometry("1512x982")
+    window.configure(bg="#0B1623")
+
+    # Insert whatever here:
+    label = Label(text="Thank you for shopping with us\n Your parcel was delivered.")
+    label.place(x=500, y=300)
+    label['font'] = font.Font(family='Helvetica', weight="bold", size=25)
+    label.configure(background="#0B1623", foreground='white')
+
+    open_parcel = Button(text="Open Parcel", command=parcel_opened, width=16)
+    open_parcel['font'] = font.Font(size=17)
+    open_parcel.place(x=588, y=400)
+
+    back = Button(text="Back", command=go_back, width=16)
+    back['font'] = font.Font(size=17)
+    back.place(x=588, y=450)
+
+    window.mainloop()
+
+
+# WINDOW 3: PAYMENT PAGE ------------------------------- #
+def store_checkout_window():
+    global f_name, l_name, addr, cit, pc, pn
+    def order_submitted():
+        global f_name, l_name, addr, cit, pc, pn
+
+        f_name = label_first_name.get()
+        l_name = label_last_name.get()
+        addr = address.get()
+        cit = country.get()
+        pc = postal_code.get()
+        pn = phone_nr.get()
+
+        new_data = {
+            f_name: {
+                "last name": l_name,
+                "address": addr,
+                "country": cit,
+                "postal code": pc,
+                "phone number": pn,
+            }
+        }
+
+        try:
+            with open("data.json", mode="r") as data_file:
+                # reading the old data
+                data = json.load(data_file)
+
+        except FileNotFoundError:
+            # creating file and dumping new data
+            with open("data.json", mode='w') as data_file:
+                json.dump(new_data, data_file, indent=4)
+
+        else:
+            with open("data.json", mode="w") as data_file:
+                # updating the old data with new data
+                data.update(new_data)
+
+                # saving the updated data
+                json.dump(data, data_file, indent=4)
+
+        finally:
+            window.destroy()
+            thank_you_window()
+
+    def go_back():
+        window.destroy()
+        all_functions_window()
+
+    def click_2(event):
+        label_first_name.configure(state=NORMAL)
+        label_first_name.delete(0, END)
+        label_first_name.unbind('<Button-2>', clicked_2)
+
+    def click_3(event):
+        label_last_name.configure(state=NORMAL)
+        label_last_name.delete(0, END)
+        label_last_name.unbind('<Button-3>', clicked_3)
+
+    def click_4(event):
+        address.configure(state=NORMAL)
+        address.delete(0, END)
+        address.unbind('<Button-4>', clicked_4)
+
+    def click_5(event):
+        country.configure(state=NORMAL)
+        country.delete(0, END)
+        country.unbind('<Button-5>', clicked_5)
+
+    def click_6(event):
+        postal_code.configure(state=NORMAL)
+        postal_code.delete(0, END)
+        postal_code.unbind('<Button-6>', clicked_6)
+
+    def click_7(event):
+        phone_nr.configure(state=NORMAL)
+        phone_nr.delete(0, END)
+        phone_nr.unbind('<Button-7>', clicked_7)
+
+    # Creating Window
+    window = Tk()
+    window.title("Payment")
+    window.geometry("1512x982")
+    window.configure(bg="#0B1623")
+
+    # Title
+    title_website = Label(text="\n\n\nPayment", justify=LEFT)
+    title_website.place(x=200, y=50)
+    title_website['font'] = font.Font(family='Helvetica', weight="bold", size=25, )
+    title_website.configure(background="#0B1623", foreground='white')
+
+    # Contact Information
+    label_first_name = Entry(width=20)
+    label_first_name.place(x=200, y=200)
+    label_first_name.insert(0, "First name")
+    label_first_name.focus()
+    label_first_name['font'] = font.Font(family='Helvetica', size=17)
+    label_first_name.configure(background="#252f3e", foreground='white')
+
+
+    label_last_name = Entry(width=20)
+    label_last_name.place(x=420, y=200)
+    label_last_name.insert(0, "Last name")
+    label_last_name['font'] = font.Font(family='Helvetica', size=17)
+    label_last_name.configure(background="#252f3e", foreground='white')
+
+
+    address = Entry(width=42)
+    address.place(x=200, y=250)
+    address['font'] = font.Font(family='Helvetica', size=17)
+    address.insert(0, "Address")
+    address['font'] = font.Font(family='Helvetica', size=17)
+    address.configure(background="#252f3e", foreground='white')
+
+
+    country = Entry(width=20)
+    country.place(x=200, y=300)
+    country['font'] = font.Font(family='Helvetica', size=17)
+    country.insert(0, "Country")
+    country['font'] = font.Font(family='Helvetica', size=17)
+    country.configure(background="#252f3e", foreground='white')
+
+
+    city = Entry(width=20)
+    city.place(x=420, y=300)
+    city['font'] = font.Font(family='Helvetica', size=17)
+    city.insert(0, "City")
+    city['font'] = font.Font(family='Helvetica', size=17)
+    city.configure(background="#252f3e", foreground='white')
+
+
+
+    postal_code = Entry(width=20)
+    postal_code.place(x=200, y=350)
+    postal_code['font'] = font.Font(family='Helvetica', size=17)
+    postal_code.insert(0, "Postal Code")
+    postal_code['font'] = font.Font(family='Helvetica', size=17)
+    postal_code.configure(background="#252f3e", foreground='white')
+
+
+    phone_nr = Entry(width=20)
+    phone_nr.place(x=200, y=400)
+    phone_nr['font'] = font.Font(family='Helvetica', size=17)
+    phone_nr.insert(0, "Phone")
+    phone_nr['font'] = font.Font(family='Helvetica', size=17)
+    phone_nr.configure(background="#252f3e", foreground='white')
+
+
+    #Order Summary picture
+    canvas = Canvas(window, height=240, width=420, bg='#252f3e', border=0)
+    canvas.place(x=800, y=150)
+    background_img = PhotoImage(file=f"Order Summary.png")
+    background = canvas.create_image(215, 120, image=background_img)
+
+    # Buttons
+    submit_order = Button(text="Submit Order", command=order_submitted, width=16)
+    submit_order['font'] = font.Font(size=17)
+    submit_order.place(x=200, y=470)
+
+    back = Button(text="Go Back to All Actions", command=go_back, width=16)
+    back['font'] = font.Font(size=17)
+    back.place(x=200, y=520)
+
+    window.mainloop()
+
+
+# WINDOW 2: PRODUCT PAGE ------------------------------- #
+def product_display_window():
+    def go_to_checkout():
+        window.destroy()
+        store_checkout_window()
+
+    def go_back():
+        window.destroy()
+        all_functions_window()
+
+    # Creating Window
+    window = Tk()
+    window.title("Products")
+    window.geometry("1512x982")
+    window.configure(bg="#0B1623")
+
+    # DILDO PICTURE
+    canvas = Canvas(window, height=600, width=500, bg='black')
+    canvas.place(x=150, y=100)
+    background_img = PhotoImage(file=f"dildo background.png")
+    background = canvas.create_image(250, 280, image=background_img)
+
+
+    # Product Title
+    product_text = Label(text="\n\n\n\nDIGGIN' DISCOVERER", justify=LEFT)
+    product_text.grid(column=2, row=0, padx=750, pady=10, sticky='w')
+    product_text['font'] = font.Font(family='Helvetica', weight="bold", size=23, )
+    product_text.configure(background="#0B1623", foreground='white')
+
+
+    # Product Description
+    productdescription_text = Label(text=
+        "★★★★★ (93 reviews) \n\n"
+        "Ever experienced the body shakes of a full-blown G-spot Orgasm?\n"
+        "The world-famous Diggin' Discoverer is about to take your orgasms \n"
+        "to the next leve! Its detail and accuracy in structure, form and \n"
+        "imagery stimulates a real-life sexual and intimate experience\n"
+        "Its shape accurately targets your G-spot perfectly for exhilarating\n"
+        "solo pleasure!\n\n"
+        "_______________________________________\n\n"
+        "Product details                                           + \n"
+        "_______________________________________\n\n"
+        "How to Use                                                + \n"
+        "_______________________________________\n\n"
+        "Benefits                                                      + \n"
+        "_______________________________________\n",
+        justify=LEFT)
+    productdescription_text.grid(column=2, row=8, padx=750, pady=30)
+    productdescription_text['font'] = font.Font(family='Helvetica', size=16)
+    productdescription_text.configure(background="#0B1623", foreground='white')
+
+
+    #CHECKOUT BUTTON
+    to_checkout = Button(text="Continue to Checkout", command=go_to_checkout, width=18)
+    to_checkout.grid(column=2, row=9, padx=750, pady=0, sticky= 'w')
+    to_checkout['font'] = font.Font(family='Helvetica', size=17)
+    to_checkout.configure(background="#0B1623", foreground='black')
+
+    #BACK BUTTON
+    back = Button(text="Back", command=go_back, width=18)
+    back.grid(column=2, row=12, padx=750, pady=20, sticky= 'w')
+    back['font'] = font.Font(family='Helvetica', size=17)
+    back.configure(background="#0B1623", foreground='black')
+
+
+    window.mainloop()
+
+
+# WINDOW 1: function ------------------------------- #
+def all_functions_window():
+
+    def submit_new_order():
+        window.destroy()
+        product_display_window()
+
+    def search_database():
+
+        def open_user_evaluation():
+            window.destroy()
+
+            def go_back():
+                new_window.destroy()
+                all_functions_window()
+
+            new_window = Tk()
+            new_window.title(f"User Evaluation for User: {first_name}")
+            new_window.geometry("1512x982")
+            text = Label(master=new_window, text=f"Name:{first_name} {last_name} \n "
+                                                 f"Address: {address}\n "
+                                                 f"Country: {country}\n "
+                                                 f"Postal Code: {postal_code}\n "
+                                                 f"Phone Number: {phone_number} ")
+            text.grid(column=0, row=1)
+
+            back = Button(master=new_window, text="Back", command=go_back)
+            back.grid(column=0, row=2)
+
+            new_window.mainloop()
+
+        try:
+            name = search_name.get()
+            with open("data.json", mode="r") as data_file:
+                data = json.load(data_file)
+                first_name = name
+                last_name = data[name]["last name"]
+                address = data[name]["address"]
+                country = data[name]["country"]
+                postal_code = data[name]["postal code"]
+                phone_number = data[name]["phone number"]
+
+            open_user_evaluation()
+
+
+
+        except FileNotFoundError:
+            messagebox.showinfo(title="Error", message="No Data File found")
+
+        except KeyError:
+            messagebox.showinfo(title="Error", message="No details for the website exists")
+
+    # Creating Window
+    window = Tk()
+    window.title("All Functions")
+    window.geometry("1512x982")
+    window.configure(bg="#0B1623")
+
+    def click_1(event):
+        search_name.configure(state=NORMAL)
+        search_name.delete(0, END)
+        search_name.unbind('<Button-1>', clicked_1)
+
+    # Label
+    intro_text = Label(text="\n\nCUMBRIDGE \nANALYTICA")
+    intro_text.grid(column=0, row=20, padx=450, pady=20)
+    intro_text['font'] = font.Font(family='Helvetica', weight="bold", size=60,)
+    intro_text.configure(background="#0B1623", foreground='white')
+
+    #Shop description
+    description_text = Label(text= "NYC-based designer brand and the world's leading \n"
+                             "provider of intimate lifestyle products. Find the\n "
+                             "perfect device to fulfill your desires this summer.\n")
+    description_text.grid(column=0, row=21, padx=450, pady=0, sticky='w')
+    description_text['font'] = font.Font(size=20)
+    description_text.configure(background="#0B1623", foreground='white')
+
+    # Buttons
+    new_order = Button(text="New Order", command=submit_new_order, width=20)
+    new_order['font'] = font.Font(size=20)
+    new_order.grid(column=0, row=28, padx=10, pady=20)
+
+    search_name = Entry(width=22)
+    search_name.place(x=530, y=500)
+    search_name['font'] = font.Font(size=20)
+    search_name.insert(0, "Enter customer name")
+
+    #Bind the Entry widget with Mouse Button to clear the content
+    clicked_1= search_name.bind('<Button-1>', click_1)
+
+    new_order = Button(text="Search", command=search_database)
+    new_order['font'] = font.Font(size=20)
+    new_order.place(x=730, y=500)
+
+    window.mainloop()
+
+
+# Initiating First Window
+all_functions_window()
+
+# ---------------------------- DATA VISUALISATION! ------------------------------- #
+
+# Connect location to coordinates here!
+coordinates = {
+    "location_1": [735, -165],
+    "location_2": [787, -208],
+    "location_3": [720, -225],
+    "location_4": [693, -205],
+    "location_5": [743, -199],
+    "location_6": [806, -300],
+    "location_7": [730, -299],
+    "location_8": [686, -326],
+    "location_9": [725, -362],
+    "location_10": [687, -430],
+    "location_11": [770, -325],
+    "location_12": [788, -340],
+    "location_13": [749, -418],
+    "location_14": [701, -467],
+    "location_15": [690, -503],
+    "location_16": [742, -363],
+    "location_17": [819, -401],
+    "location_18": [789, -439],
+    "location_19": [735, -456],
+    "location_20": [753, -484],
+    "location_21": [821, -482],
+    "location_22": [793, -499],
+    "location_23": [743, -578],
+    "location_24": [723, -656],
+    "location_25": [685, -603],
+    "location_26": [680, -690],
+    "location_27": [741, -525],
+    "location_28": [707, -676],
+    "location_29": [703, -769],
+    "location_30": [712, -578],
+    "location_31": [783, -724],
+    "location_32": [670, -784],
+    "location_33": [717, -792],
+    "location_34": [864, -784],
+    "location_35": [805, -518],
+    "location_36": [816, -574],
+    "location_37": [804, -654],
+    "location_38": [827, -694],
+    "location_39": [739, -794],
+    "location_40": [825, -754],
+    "location_41": [800, -759],
+    "location_42": [862, -717],
+    "location_43": [883, -739],
+    "location_44": [872, -696],
+    "colour_coordination_circle": [-5000, 5000],
+
+}
+
+# empty list for x and y coordinates (matplotlib takes two lists of coordinates as inputs)
+x = []
+y = []
+
+for x_value in coordinates:
+    x.append(coordinates[x_value][0])
+
+for y_value in coordinates:
+    y.append(coordinates[y_value][1])
+
+# setting style of data visualization!
+plt.style.use('seaborn')
+
+# counting how many times the data visualization has run
+value = 0
+
+# stopping value (at 5 seconds right now)
+is_on = 50
+
+while is_on > 0:
+    value += 1
+    print(f"This function has run {value} times")
+
+    # opening and reading the csv file created in data_collection.py
+    data = pd.read_csv('data.csv')
+
+    with open("data.csv", "r", encoding="utf-8", errors="ignore") as arduino_data:
+        # accessing the last line in the code
+        final_line = arduino_data.readlines()[-1]
+        final_line = final_line.split(',')
+
+        # to see if it's working
+        print(f"{final_line[1]}, {final_line[2]}, {final_line[3]}, ... , "
+              f"{final_line[42]}, {final_line[43]}, {final_line[44]}")
+
+    # pulling data from the csv file (all pressures of locations are in new list)
+    pressures = [int(final_line[1]), int(final_line[2]), int(final_line[3]), int(final_line[4]),
+                 int(final_line[5]), int(final_line[6]), int(final_line[7]), int(final_line[8]),
+                 int(final_line[9]), int(final_line[10]), int(final_line[11]), int(final_line[12]),
+                 int(final_line[13]), int(final_line[14]), int(final_line[15]), int(final_line[16]),
+                 int(final_line[17]), int(final_line[18]), int(final_line[19]),int(final_line[20]),
+                 int(final_line[21]), int(final_line[22]), int(final_line[23]), int(final_line[24]),
+                 int(final_line[25]), int(final_line[26]), int(final_line[27]), int(final_line[28]),
+                 int(final_line[29]), int(final_line[30]), int(final_line[31]), int(final_line[32]),
+                 int(final_line[33]), int(final_line[34]), int(final_line[35]), int(final_line[36]),
+                 int(final_line[37]), int(final_line[38]), int(final_line[39]), int(final_line[40]),
+                 int(final_line[41]), int(final_line[42]), int(final_line[43]), int(final_line[44]), 900]
+
+    # transform the values of "pressures" list
+    # pressure size: to adjust the size of the circles
+    #pressure_size = [(math.floor(number*5)) for number in pressures
+                     #if number<1000]
+    pressure_size=[]
+
+    for number in pressures:
+        if number < 3000:
+            pressure_size.append(number*5)
+        elif number >= 3000:
+            pressure_size.append(15000)
+
+    # colors size: to adjust the color of the circles
+    pressure_color = []
+    for number in pressures:
+        if number < 10:
+            pressure_color.append(0)
+        elif number < 100:
+            pressure_color.append(1)
+        elif number < 200:
+            pressure_color.append(2)
+        elif number < 300:
+            pressure_color.append(3)
+        elif number < 400:
+            pressure_color.append(4)
+        elif number < 500:
+            pressure_color.append(5)
+        elif number < 600:
+            pressure_color.append(6)
+        elif number < 700:
+            pressure_color.append(7)
+        elif number < 800:
+            pressure_color.append(8)
+        else:
+            pressure_color.append(9)
+
+    # check if values work
+    print(f"Pressure Color{pressure_color}")
+    print(f"Pressure Size{pressure_size}")
+
+    # Graph 1:
+    pressure_sum += sum(pressures)
+    if value == 0 or value%10 == 0:
+        avg_pressure_per_sec.append(pressure_sum)
+        pressure_sum = 0
+
+    # Graph 2:
+    if 0 < sum(pressures) < 5000:
+        state = 'resolution'
+    if 5000 < sum(pressures) < 10000:
+        state = 'foreplay'
+    if sum(pressures) > 10000:
+        state = 'orgasm'
+
+    if state == 'foreplay':
+        foreplay_time += 0.1
+    if state == 'resolution':
+        resolution_time += 0.1
+    if state == 'orgasm':
+        orgasm_time += 0.1
+
+    # Graph 3:
+    ball_list = [int(final_line[32]), int(final_line[29]), int(final_line[33]), int(final_line[39]),
+    int(final_line[31]), int(final_line[38]), int(final_line[40]), int(final_line[42]),
+    int(final_line[44]), int(final_line[43]), int(final_line[41])]
+
+    #dick_length_list = [int(final_line[8]), int(final_line[7]), int(final_line[11]),
+    #int(final_line[6]), int(final_line[16]), int(final_line[12]), int(final_line[10]),
+    #int(final_line[13]), int(final_line[17]), int(final_line[14]), int(final_line[19]),
+    #int(final_line[18]), int(final_line[20]), int(final_line[15]), int(final_line[27]),
+    #int(final_line[22]), int(final_line[21]), int(final_line[35]), int(final_line[23]),
+    #int(final_line[28]), int(final_line[37]), int(final_line[26]), int(final_line[24]),
+    #int(final_line[30]), int(final_line[25]), int(final_line[36])]
+
+    #tip_list = [int(final_line[1]), int(final_line[2]), int(final_line[3]),
+    #int(final_line[4]), int(final_line[5])]
+
+    balls += sum(ball_list)
+    #dick_length += sum(dick_length_list)
+    #tip += sum(tip_list)
+
+    if value == 0 or value % 10 == 0:
+        adventurousness = (balls/(pressure_sum+1))
+
+        graph_3_data.append(adventurousness)
+
+        balls = 0
+
+    # Squares
+    x2 = [751, 751, 751]
+    y2 = [-344, -528, -712]
+    size_squares = [11000, 11000, 11000]
+
+    # Circles
+
+
+    # creating the graph
+    # other arguments: (edgecolor = 'black', linewidth = 1)
+    new = plt.scatter(x, y, s=pressure_size, c=pressure_color, cmap="OrRd")
+    dildo_squares = plt.scatter(x2, y2, size_squares, c="black", alpha=0.25, marker="s")
+    dildo_circle1 = plt.scatter(750, -250, 11000, alpha=0.25, marker=MarkerStyle('o', fillstyle='top'),
+            color='black', label='top')
+    dildo_circle2 = plt.scatter(825, -710, 11000, alpha=0.25, marker=MarkerStyle('o', fillstyle='right'),
+                                color='black', label='right')
+
+    # setting limits to x and y axis
+    plt.ylim([-981, 0])
+    plt.xlim([0, 1512])
+
+    # Labelling the Graph
+    plt.title('Data Visualization V1')
+    plt.xlabel('x_coordinates')
+    plt.ylabel('y-coordinates')
+
+    # to clear the axis every time the function runs again
+    plt.ion()
+    plt.show()
+    plt.pause(0.01)
+    new.set_visible(False)
+    dildo_squares.set_visible(False)
+    dildo_circle1.set_visible(False)
+    dildo_circle2.set_visible(False)
+
+
+    # mechanism to close graph automatically if dildo is not in use
+    if sum(pressures) <= 5900:
+        is_on -= 1
+
+    if is_on == 0:
+        plt.close()
+
+    print(f"Is_On Value: {is_on}")
+
+# ___________________________CALCULATIONS___________________________
+
+# Graph 2:
+graph_2_data = [0]
+
+for value in range(round(foreplay_time)):
+    graph_2_data.append(3)
+for value in range(round(orgasm_time)):
+    graph_2_data.append(7)
+for value in range(round(resolution_time)):
+    graph_2_data.append(1)
+
+print(f"Data for Graph 1: {avg_pressure_per_sec}")
+print(f"Data for Graph 2: {graph_2_data}")
+print(f"Data for Graph 3: {graph_3_data}")
+
+# ___________________________USER EVALUATION___________________________
+
+
+class Graph(tk.Frame):
+    def __init__(self, master=None, graph_title="", data=(), *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+
+        # size of each graph
+        self.fig = Figure(figsize=(6, 3))
+        ax = self.fig.add_subplot(111)
+
+        # sets line name and data dictionary- title: (data in form of list)
+        df = pd.DataFrame({f"{graph_title}": data})
+        df.plot(ax=ax)
+
+        # creates canvas where graph will be placed in
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.canvas.draw()
+
+        # creates title label
+        tk.Label(self, text=f"Title: {graph_title}").grid(row=0)
+
+        # creates the graph
+        self.canvas.get_tk_widget().grid(row=1)
+
+
+window = tk.Tk()
+window.geometry("2560x1600")
+window.configure(bg="#0B1623")
+
+# inputs needed for graph: data in form of a list
+
+data_graph_1 = (1, 2, 3)
+Graph(master=window, graph_title="Intensity", data=avg_pressure_per_sec).grid(row=1, column=1)
+Graph(master=window, graph_title="Interaction", data=graph_2_data).grid(row=2, column=1)
+Graph(master=window, graph_title="Style of Affection", data=graph_3_data).grid(row=3, column=1)
+
+text_box = tk.Label(window, width=50, height=10, text=f"{f_name}, {l_name}, {addr}, {cit}, {pc}, {pn}" )
+text_box.grid(row=1, column=2)
+
+
+
+
+
+description_text = Label(text="NYC-based designer brand and the world's leading \n"
+                              "provider of intimate lifestyle products. Find the\n "
+                              "perfect device to fulfill your desires this summer.\n")
+description_text.grid(column=0, row=21, padx=450, pady=0, sticky='w')
+description_text['font'] = font.Font(size=20)
+description_text.configure(background="#0B1623", foreground='white')
+
+
+window.mainloop()
