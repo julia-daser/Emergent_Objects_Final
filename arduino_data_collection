@@ -1,0 +1,247 @@
+ #include <CapacitiveSensor.h>
+
+/*
+ * CapitiveSense Library Demo Sketch
+ * Paul Badger 2008
+ * Uses a high value resistor e.g. 10M between send pin and receive pin
+ * Resistor effects sensitivity, experiment with values, 50K - 50M. Larger resistor values yield larger sensor values.
+ * Receive pin is the sensor pin - try different amounts of foil/metal on this pin
+ */
+
+/*
+ * Breadboard 1: 8 wires, main sensor=10
+ */
+
+CapacitiveSensor   cs_10_5 = CapacitiveSensor(10,5);        
+CapacitiveSensor   cs_10_6 = CapacitiveSensor(10,6);         
+CapacitiveSensor   cs_10_7 = CapacitiveSensor(10,7);        
+CapacitiveSensor   cs_10_8 = CapacitiveSensor(10,8);        
+CapacitiveSensor   cs_10_9 = CapacitiveSensor(10,9);        
+CapacitiveSensor   cs_10_11 = CapacitiveSensor(10,11); 
+CapacitiveSensor   cs_10_12 = CapacitiveSensor(10,12);
+CapacitiveSensor   cs_10_13 = CapacitiveSensor(10,13);          
+
+
+/*
+ * Breadboard 2a: 7 wires, main sensor=14
+ */
+
+  
+CapacitiveSensor   cs_14_18 = CapacitiveSensor(14,18);        
+CapacitiveSensor   cs_14_17 = CapacitiveSensor(14,17);         
+CapacitiveSensor   cs_14_16 = CapacitiveSensor(14,16);        
+CapacitiveSensor   cs_14_15 = CapacitiveSensor(14,15);        
+CapacitiveSensor   cs_14_2 = CapacitiveSensor(14,2);        
+CapacitiveSensor   cs_14_3 = CapacitiveSensor(14,3); 
+CapacitiveSensor   cs_14_4 = CapacitiveSensor(14,4);
+ 
+
+
+/*
+ * Breadboard 2b: 7 wires, main sensor=23
+ */
+  
+
+CapacitiveSensor   cs_23_26 = CapacitiveSensor(23,26);        
+CapacitiveSensor   cs_23_25 = CapacitiveSensor(23,25);         
+CapacitiveSensor   cs_23_24 = CapacitiveSensor(23,24);        
+CapacitiveSensor   cs_23_22 = CapacitiveSensor(23,22);        
+CapacitiveSensor   cs_23_53 = CapacitiveSensor(23,53);        
+CapacitiveSensor   cs_23_52 = CapacitiveSensor(23,52); 
+CapacitiveSensor   cs_23_19 = CapacitiveSensor(23,19); 
+
+
+/*
+ * Breadboard 3a: 7 wires, main sensor= 31
+ */
+ 
+ 
+CapacitiveSensor   cs_31_27 = CapacitiveSensor(31,27);        
+CapacitiveSensor   cs_31_28 = CapacitiveSensor(31,28);         
+CapacitiveSensor   cs_31_29 = CapacitiveSensor(31,29);        
+CapacitiveSensor   cs_31_30 = CapacitiveSensor(31,30);        
+CapacitiveSensor   cs_31_32 = CapacitiveSensor(31,32); 
+CapacitiveSensor   cs_31_33 = CapacitiveSensor(31,33);
+CapacitiveSensor   cs_31_34 = CapacitiveSensor(31,34); 
+
+
+/*
+ * Breadboard 3b: 7 wires, main sensor= 38
+ */
+ 
+ 
+CapacitiveSensor   cs_38_35 = CapacitiveSensor(38,35);        
+CapacitiveSensor   cs_38_36 = CapacitiveSensor(38,36);         
+CapacitiveSensor   cs_38_37 = CapacitiveSensor(38,37);        
+CapacitiveSensor   cs_38_39 = CapacitiveSensor(38,39);        
+CapacitiveSensor   cs_38_40 = CapacitiveSensor(38,40);        
+CapacitiveSensor   cs_38_41 = CapacitiveSensor(38,41); 
+CapacitiveSensor   cs_38_42 = CapacitiveSensor(38,42);
+
+
+/*
+ * Breadboard 4: 8 wires, main sensor= 48
+ */
+ 
+ 
+CapacitiveSensor   cs_48_43 = CapacitiveSensor(48,43);        
+CapacitiveSensor   cs_48_44 = CapacitiveSensor(48,49);         
+CapacitiveSensor   cs_48_45 = CapacitiveSensor(48,45);        
+CapacitiveSensor   cs_48_46 = CapacitiveSensor(48,46);        
+CapacitiveSensor   cs_48_47 = CapacitiveSensor(48,47);        
+CapacitiveSensor   cs_48_49 = CapacitiveSensor(48,49); 
+CapacitiveSensor   cs_48_50 = CapacitiveSensor(48,50);
+CapacitiveSensor   cs_48_51 = CapacitiveSensor(48,51);
+
+
+
+void setup()                    
+{
+   cs_10_5.set_CS_AutocaL_Millis(0xFFFFFFFF);     // turn off autocalibrate on channel 1 - just as an example
+   Serial.begin(9600);
+}
+
+void loop()                    
+{
+    long total1 =  cs_10_5.capacitiveSensor(30);
+    long total2 =  cs_10_6.capacitiveSensor(30);
+    long total3 =  cs_10_7.capacitiveSensor(30);
+    long total4 =  cs_10_8.capacitiveSensor(30);
+    long total5 =  cs_10_9.capacitiveSensor(30);
+    long total6 =  cs_10_11.capacitiveSensor(30);
+    long total7 =  cs_10_12.capacitiveSensor(30);
+    long total8 =  cs_10_13.capacitiveSensor(30);   
+    
+    long total9 =  cs_14_18.capacitiveSensor(30);
+    long total10 =  cs_14_17.capacitiveSensor(30);
+    long total11 =  cs_14_16.capacitiveSensor(30);
+    long total12 =  cs_14_15.capacitiveSensor(30);
+    long total13 =  cs_14_2.capacitiveSensor(30);
+    long total14 =  cs_14_3.capacitiveSensor(30);
+    long total15 =  cs_14_4.capacitiveSensor(30);
+    
+    long total16 =  cs_23_26.capacitiveSensor(30);
+    long total17 =  cs_23_25.capacitiveSensor(30);
+    long total18 =  cs_23_24.capacitiveSensor(30);
+    long total19 =  cs_23_22.capacitiveSensor(30);
+    long total20 =  cs_23_53.capacitiveSensor(30);
+    long total21 =  cs_23_52.capacitiveSensor(30);
+    long total22 =  cs_23_19.capacitiveSensor(30);
+    
+    long total23 =  cs_31_27.capacitiveSensor(30);
+    long total24 =  cs_31_28.capacitiveSensor(30);
+    long total25 =  cs_31_29.capacitiveSensor(30);
+    long total26 =  cs_31_30.capacitiveSensor(30);
+    long total27 =  cs_31_32.capacitiveSensor(30);
+    long total28 =  cs_31_33.capacitiveSensor(30);
+    long total29 =  cs_31_34.capacitiveSensor(30);
+
+    long total30 =  cs_38_35.capacitiveSensor(30);
+    long total31 =  cs_38_36.capacitiveSensor(30);
+    long total32 =  cs_38_37.capacitiveSensor(30);
+    long total33 =  cs_38_39.capacitiveSensor(30);
+    long total34 =  cs_38_40.capacitiveSensor(30);
+    long total35 =  cs_38_41.capacitiveSensor(30);
+    long total36 =  cs_38_42.capacitiveSensor(30);
+
+    long total37 =  cs_48_43.capacitiveSensor(30);
+    long total38 =  cs_48_44.capacitiveSensor(30);
+    long total39 =  cs_48_45.capacitiveSensor(30);
+    long total40 =  cs_48_46.capacitiveSensor(30);
+    long total41 =  cs_48_47.capacitiveSensor(30);
+    long total42 =  cs_48_49.capacitiveSensor(30);
+    long total43 =  cs_48_50.capacitiveSensor(30);
+    long total44 =  cs_48_51.capacitiveSensor(30);
+    
+    
+    Serial.print(total1);                  
+    Serial.print("x");                     
+    Serial.print(total2);                  
+    Serial.print("x");
+    Serial.print(total3);                
+    Serial.print("x");
+    Serial.print(total4);                
+    Serial.print("x");
+    Serial.print(total5);                
+    Serial.print("x");
+    Serial.print(total6);               
+    Serial.print("x");
+    Serial.print(total7);                
+    Serial.print("x");
+    Serial.print(total8);                
+    Serial.print("x");
+    Serial.print(total9);                  
+    Serial.print("x");                     
+    Serial.print(total10);                  
+    Serial.print("x");
+    Serial.print(total11);                
+    Serial.print("x");
+    Serial.print(total12);                
+    Serial.print("x");
+    Serial.print(total13);                
+    Serial.print("x");
+    Serial.print(total14);                
+    Serial.print("x");
+    Serial.print(total15);                
+    Serial.print("x");
+    Serial.print(total16);                
+    Serial.print("x");
+    Serial.print(total17);                  
+    Serial.print("x");                     
+    Serial.print(total18);                  
+    Serial.print("x");
+    Serial.print(total19);                
+    Serial.print("x");
+    Serial.print(total20);                
+    Serial.print("x");
+    Serial.print(total21);                
+    Serial.print("x");
+    Serial.print(total22);                
+    Serial.print("x");
+    Serial.print(total23);                
+    Serial.print("x");
+    Serial.print(total24);                
+    Serial.print("x");
+    Serial.print(total25);                
+    Serial.print("x");
+    Serial.print(total26);                
+    Serial.print("x");
+    Serial.print(total27);                
+    Serial.print("x");
+    Serial.print(total28);                
+    Serial.print("x");
+    Serial.print(total29);                
+    Serial.print("x");
+    Serial.print(total30);                
+    Serial.print("x");
+    Serial.print(total31);                
+    Serial.print("x");
+    Serial.print(total32);                
+    Serial.print("x");
+    Serial.print(total33);                
+    Serial.print("x");
+    Serial.print(total34);                
+    Serial.print("x");
+    Serial.print(total35);                
+    Serial.print("x");
+    Serial.print(total36);                
+    Serial.print("x");
+    Serial.print(total37);                
+    Serial.print("x");
+    Serial.print(total38);                
+    Serial.print("x");
+    Serial.print(total39);                
+    Serial.print("x");
+    Serial.print(total40);                
+    Serial.print("x");
+    Serial.print(total41);                
+    Serial.print("x");
+    Serial.print(total42);                
+    Serial.print("x");
+    Serial.print(total43);                
+    Serial.print("x");
+    Serial.print(total44);                
+    Serial.print("x");
+    Serial.println("end");
+    delay(10);                             // arbitrary delay to limit data to serial port 
+}
